@@ -1,0 +1,8 @@
+version: '3.8'
+services:
+  sentinal-contactform:
+    image: sentinal/contactform
+    build: .
+    ports:
+      - "5489:8080"
+    container_name: sentinal-contactform
