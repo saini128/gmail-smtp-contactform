@@ -14,9 +14,9 @@ import (
 )
 
 func SendContactInfoPage(msg models.ContactFormBody) error {
-	auth := smtp.PlainAuth("", GMAIL_USERNAME, GMAIL_PASSWORD, GMAIL_HOST)
+	auth := smtp.PlainAuth("", SES_USERNAME, SES_PASSWORD, SES_HOST)
 	formattedName := mime.QEncoding.Encode("utf-8", ContactName)
-	formattedAddress := fmt.Sprintf("\"%s\" <%s>", formattedName, ContactEmail)
+	formattedAddress := fmt.Sprintf("\"%s\" <%s>", formattedName, ContactEmailFrom)
 	subject := "Contact Form Submission - " + msg.Name
 	body := utils.ContactFormEmail(msg)
 
@@ -55,7 +55,7 @@ func SendContactInfoPage(msg models.ContactFormBody) error {
 		"Content-Type: multipart/alternative; boundary=\"" + m.Boundary() + "\"\r\n" +
 		"\r\n" + b.String())
 
-	err = smtp.SendMail(GMAIL_HOST+":587", auth, ContactEmail, []string{ContactEmail}, msgg)
+	err = smtp.SendMail(SES_HOST+":587", auth, SenderEmail, []string{ContactEmail}, msgg)
 	if err != nil {
 		log.Printf("Error sending email: %v\n", err)
 		return err

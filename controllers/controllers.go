@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"fmt"
 	"net/http"
 	"sentinal-contactform/mailing"
 	"sentinal-contactform/models"
@@ -14,6 +15,7 @@ func ContactFormController(c echo.Context) error {
 
 		return echo.NewHTTPError(http.StatusBadRequest, "Invalid request body")
 	}
+	fmt.Println(reqBody)
 	err := mailing.SendContactInfoPage(reqBody)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]string{
